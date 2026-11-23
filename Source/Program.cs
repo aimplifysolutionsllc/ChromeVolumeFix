@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -6,6 +6,10 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using ChromeAudioRepair;
+
+[assembly: System.Reflection.AssemblyCompany("Aimplify Solutions")]
+[assembly: System.Reflection.AssemblyProduct("Chrome Volume Fix")]
+[assembly: System.Reflection.AssemblyTitle("Chrome Volume Fix by Aimplify Solutions")]
 
 namespace ChromeVolumeRepair {
  internal static class Program {
@@ -73,9 +77,9 @@ namespace ChromeVolumeRepair {
    AutoScaleMode=AutoScaleMode.None;ClientSize=new Size(680,450);
    MinimumSize=new Size(680,450);MaximumSize=new Size(1000,700);
    StartPosition=FormStartPosition.CenterScreen;
-   var layout=new TableLayoutPanel{Dock=DockStyle.Fill,Padding=new Padding(30,22,30,26),ColumnCount=1,RowCount=3};
+   var layout=new TableLayoutPanel{Dock=DockStyle.Fill,Padding=new Padding(30,22,30,26),ColumnCount=1,RowCount=4};
    layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));
-   layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+   layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
    var header=new TableLayoutPanel{Dock=DockStyle.Top,AutoSize=true,ColumnCount=2,Margin=new Padding(0,0,0,18)};
    header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));header.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
    var brand=TextLabel("CHROME VOLUME REPAIR",11F,FontStyle.Bold,Color.FromArgb(136,226,204));brand.Anchor=AnchorStyles.Left;brand.Margin=new Padding(0);header.Controls.Add(brand,0,0);
@@ -97,6 +101,8 @@ namespace ChromeVolumeRepair {
    actions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,50));actions.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,50));
    SetupButton(scan,"Check Chrome",delegate {Scan();});SetupButton(repair,"Fix Chrome",delegate {ConfirmRepair();});
    scan.Dock=repair.Dock=DockStyle.Fill;scan.Margin=new Padding(0,0,7,0);repair.Margin=new Padding(7,0,0,0);actions.Controls.Add(scan,0,0);actions.Controls.Add(repair,1,0);layout.Controls.Add(actions,0,2);
+   var credit=new LinkLabel{Text="Brought to you by aimplifysolutions.com",AutoSize=true,Font=new Font("Segoe UI",8F),ForeColor=Color.FromArgb(146,153,167),LinkColor=Color.FromArgb(146,153,167),ActiveLinkColor=Color.FromArgb(136,226,204),VisitedLinkColor=Color.FromArgb(146,153,167),LinkBehavior=LinkBehavior.HoverUnderline,Anchor=AnchorStyles.Right,Margin=new Padding(0,12,0,0),TabIndex=3};
+   credit.Links.Add(18,20,"https://aimplifysolutions.com");credit.LinkClicked+=delegate {try {System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://aimplifysolutions.com"){UseShellExecute=true});}catch {MessageBox.Show(this,"Visit https://aimplifysolutions.com in your browser.","Aimplify Solutions");}};layout.Controls.Add(credit,0,3);
    ready.CheckedChanged+=delegate {UpdateButtons();};Controls.Add(layout);helpBubble.BringToFront();AcceptButton=scan;scan.TabIndex=0;repair.TabIndex=1;
    Shown+=delegate {ActiveControl=scan;helpProgress=0;helpBubble.Visible=false;helpAnimation.Stop();};
    Resize+=delegate {if(helpBubble.Visible)PlaceHelp();};
@@ -297,3 +303,6 @@ namespace ChromeVolumeRepair {
   }
  }
 }
+
+
+

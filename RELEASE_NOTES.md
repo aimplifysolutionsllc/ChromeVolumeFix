@@ -1,3 +1,5 @@
+Adds a subtle, clickable footer: Brought to you by aimplifysolutions.com. The Check Chrome / Fix Chrome interface and repair behavior are unchanged.
+
 Portable Windows 10/11 tool for checking and repairing Chrome's hidden Windows audio-channel levels.
 
 **Download `ChromeVolumeRepair.exe` below.** No installer or administrator access required.
@@ -12,3 +14,4 @@ Includes the dark interface, animated circular-? help popout, and per-channel re
 This repairs one specific setting; it is not a fix for every audio problem. It only changes Chrome's session channels and runs entirely locally. The executable is unsigned and downloaded copies may trigger a Windows reputation warning.
 
 The executable and ZIP are built from the release commit by GitHub Actions. `SHA256.txt` contains checksums for both downloads.
+

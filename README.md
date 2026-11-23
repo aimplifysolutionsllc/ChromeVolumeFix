@@ -1,5 +1,7 @@
 # Chrome Volume Fix
 
+Brought to you by [aimplifysolutions.com](https://aimplifysolutions.com).
+
 A small Windows app for one frustrating problem: **Chrome is barely audible even though Windows Volume Mixer says 100%.**
 
 ## Download
@@ -10,7 +12,7 @@ Windows 10/11. Portable: no installation, Chrome extension, administrator access
 
 [All releases, ZIP downloads, and checksums](https://github.com/aimplifysolutionsllc/ChromeVolumeFix/releases/latest)
 
-![Chrome Volume Fix showing actual channel levels](docs/screenshot.jpg)
+![Chrome Volume Fix showing actual channel levels](docs/screenshot.png)
 
 ## How to use it
 
@@ -67,3 +69,5 @@ Tests cover the confirmation gate, targeted repair and verified readback, preser
 ## License
 
 [MIT](LICENSE)
+
+
