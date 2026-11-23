@@ -1,0 +1,6 @@
+/ChromeVolumeRepair.exe
+/artifacts/
+*.pdb
+bin/
+obj/
+.vs/

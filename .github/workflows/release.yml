@@ -1,0 +1,45 @@
+name: Publish release
+on:
+  push:
+    branches: [main]
+    paths: [VERSION]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        shell: pwsh
+        run: ./Source/Build.ps1
+      - name: Test
+        shell: pwsh
+        run: ./Tests/RunTests.ps1
+      - name: Package portable download
+        shell: pwsh
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid release version.' }
+          New-Item -ItemType Directory artifacts/release/package -Force | Out-Null
+          Copy-Item ChromeVolumeRepair.exe, README.md, LICENSE artifacts/release/package
+          $exeHash = (Get-FileHash ChromeVolumeRepair.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$exeHash  ChromeVolumeRepair.exe" | Set-Content artifacts/release/package/SHA256.txt -Encoding ascii
+          Copy-Item artifacts/release/package/SHA256.txt artifacts/release/SHA256.txt
+          Compress-Archive -Path artifacts/release/package/* -DestinationPath "artifacts/release/ChromeVolumeRepair-$version.zip"
+          $zipHash = (Get-FileHash "artifacts/release/ChromeVolumeRepair-$version.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$zipHash  ChromeVolumeRepair-$version.zip" | Add-Content artifacts/release/SHA256.txt -Encoding ascii
+      - name: Publish downloadable release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          gh release view "v$version" *> $null
+          if ($LASTEXITCODE -eq 0) { throw "Release v$version already exists. Increment VERSION for a new release." }
+          gh release create "v$version" ChromeVolumeRepair.exe "artifacts/release/ChromeVolumeRepair-$version.zip" artifacts/release/SHA256.txt --target $env:GITHUB_SHA --title "Chrome Volume Fix v$version" --notes-file RELEASE_NOTES.md --latest
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed.' }

@@ -1,0 +1,22 @@
+name: Build and test
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build portable executable
+        shell: pwsh
+        run: ./Source/Build.ps1
+      - name: Test repair logic with simulated sessions
+        shell: pwsh
+        run: ./Tests/RunTests.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ChromeVolumeRepair
+          path: ChromeVolumeRepair.exe
